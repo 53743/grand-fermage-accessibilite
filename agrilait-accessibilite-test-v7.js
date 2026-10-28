@@ -245,6 +245,113 @@
   }
 
   
+  
+  function executer() {
+    const champs = identifierChamps();
+
+    appliquerAutocomplete(champs);
+    creerRegroupement(champs);
+    creerRegroupementDemande(champs);
+
+    // Troisieme regroupement Agrilait V7
+    creerRegroupementDonnees();
+  }
+    const lignes = Array.from(
+      formulaire.querySelectorAll(
+        '[data-role="container"][data-type="virtual-form-table-row"]'
+      )
+    );
+
+    function normaliserTexte(texte) {
+      return (texte || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/\s+/g, " ");
+    }
+
+    const debut = lignes.find(function (ligne) {
+      return normaliserTexte(ligne.textContent)
+        .includes("les champs marques d'une etoile");
+    });
+
+    const fin = lignes.find(function (ligne) {
+      return normaliserTexte(ligne.textContent)
+        .includes("reclamation abusive ou frauduleuse");
+    });
+
+    if (!debut || !fin) {
+      console.info(
+        "Agrilait V7 : informations de confidentialite non trouvees"
+      );
+      return;
+    }
+
+    const parent = debut.parentElement;
+
+    if (!parent || fin.parentElement !== parent) {
+      console.warn(
+        "Agrilait V7 : structure des donnees incompatible"
+      );
+      return;
+    }
+
+    const enfants = Array.from(parent.children);
+    const premier = enfants.indexOf(debut);
+    const dernier = enfants.indexOf(fin);
+
+    if (premier < 0 || dernier < premier) return;
+
+    const elements = enfants.slice(premier, dernier + 1);
+
+    // Ne jamais inclure le CAPTCHA ou le bouton Envoyer
+    if (elements.some(function (element) {
+      return !!element.querySelector(
+        'iframe[src*="recaptcha"], [data-type="form-captcha"], button[type="submit"]'
+      );
+    })) {
+      console.warn(
+        "Agrilait V7 : CAPTCHA ou envoi detecte, regroupement annule"
+      );
+      return;
+    }
+
+    const fieldset = document.createElement("fieldset");
+    fieldset.id = "agrilait-donnees";
+
+    const legend = document.createElement("legend");
+    legend.textContent = "Protection de vos données personnelles";
+
+    fieldset.appendChild(legend);
+
+    fieldset.style.cssText = [
+      "box-sizing:border-box",
+      "width:100%",
+      "min-width:0",
+      "margin:16px 0 22px",
+      "padding:18px 12px",
+      "border:2px solid #245c86",
+      "border-radius:6px"
+    ].join(";");
+
+    legend.style.cssText = [
+      "font-size:1.2em",
+      "font-weight:700",
+      "color:#114271",
+      "padding:0 8px"
+    ].join(";");
+
+    parent.insertBefore(fieldset, debut);
+
+    elements.forEach(function (element) {
+      fieldset.appendChild(element);
+    });
+
+    console.info(
+      "Agrilait V7 : regroupement Protection des donnees ajoute"
+    );
+  }
+
   function executer() {
     const champs = identifierChamps();
 

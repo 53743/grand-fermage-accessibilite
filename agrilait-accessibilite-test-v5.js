@@ -178,30 +178,27 @@
     initialiser();
   }
 
-  // Supprimer la bordure du bloc informatif Agrilait
+  
+  // Supprimer uniquement la bordure du bloc informatif Agrilait
   function supprimerBordureInformation() {
-    document.querySelectorAll(
-      '#form [data-role="control"]'
-    ).forEach(function (bloc) {
-      const texte = bloc.textContent || "";
+    const bloc = document.querySelector(
+      '#form [data-role="control"][data-id="122047806"]'
+    );
 
-      if (
-        texte.includes("Nous ne distribuons pas de gadgets") &&
-        texte.includes("boutique en ligne")
-      ) {
-        bloc.style.setProperty(
-          "border", "none", "important"
-        );
-        bloc.style.setProperty(
-          "outline", "none", "important"
-        );
-        bloc.style.setProperty(
-          "box-shadow", "none", "important"
-        );
-      }
+    if (!bloc) return;
+
+    const ligne = bloc.closest(
+      '[data-role="container"][data-type="virtual-form-table-row"]'
+    );
+
+    [bloc, ligne].filter(Boolean).forEach(function (element) {
+      element.style.setProperty("border", "none", "important");
+      element.style.setProperty("outline", "none", "important");
+      element.style.setProperty("box-shadow", "none", "important");
     });
   }
 
   supprimerBordureInformation();
   setTimeout(supprimerBordureInformation, 1500);
+
 })();

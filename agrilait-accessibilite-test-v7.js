@@ -358,7 +358,7 @@
 
     // Nouveau regroupement Agrilait V6
     creerRegroupementDemande(champs);
-  }
+  creerRegroupementDonnees();}
 
 
   function initialiser() {

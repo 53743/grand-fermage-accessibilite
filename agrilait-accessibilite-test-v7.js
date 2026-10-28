@@ -246,16 +246,14 @@
 
   
   
-  function executer() {
-    const champs = identifierChamps();
+  
+  // Agrilait V7 - Protection des donnees personnelles
+  function creerRegroupementDonnees() {
+    if (document.getElementById("agrilait-donnees")) return;
 
-    appliquerAutocomplete(champs);
-    creerRegroupement(champs);
-    creerRegroupementDemande(champs);
+    const formulaire = document.querySelector("#form");
+    if (!formulaire) return;
 
-    // Troisieme regroupement Agrilait V7
-    creerRegroupementDonnees();
-  }
     const lignes = Array.from(
       formulaire.querySelectorAll(
         '[data-role="container"][data-type="virtual-form-table-row"]'

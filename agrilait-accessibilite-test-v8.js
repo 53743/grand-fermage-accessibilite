@@ -414,4 +414,52 @@
   supprimerBordureInformation();
   setTimeout(supprimerBordureInformation, 1500);
 
+
+  // Agrilait V8 : limitation des debordements en affichage mobile.
+  // Styles limites aux encadres, sans modifier les champs ou leur validation.
+  if (!document.getElementById("agrilait-correction-mobile")) {
+    const styleMobile = document.createElement("style");
+    styleMobile.id = "agrilait-correction-mobile";
+    styleMobile.textContent = `
+      @media (max-width: 600px) {
+        #form #agrilait-coordonnees,
+        #form #agrilait-demande,
+        #form #agrilait-donnees {
+          box-sizing: border-box !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          min-width: 0 !important;
+        }
+
+        #form #agrilait-coordonnees > [data-role="container"],
+        #form #agrilait-demande > [data-role="container"],
+        #form #agrilait-donnees > [data-role="container"],
+        #form #agrilait-coordonnees [data-role="control"],
+        #form #agrilait-demande [data-role="control"],
+        #form #agrilait-donnees [data-role="control"],
+        #form #agrilait-coordonnees [data-role="input-row"],
+        #form #agrilait-demande [data-role="input-row"],
+        #form #agrilait-coordonnees [data-role="input-container"],
+        #form #agrilait-demande [data-role="input-container"] {
+          box-sizing: border-box !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          min-width: 0 !important;
+        }
+
+        #form #agrilait-coordonnees input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+        #form #agrilait-demande input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+        #form #agrilait-coordonnees select,
+        #form #agrilait-demande select,
+        #form #agrilait-coordonnees textarea,
+        #form #agrilait-demande textarea {
+          box-sizing: border-box !important;
+          max-width: 100% !important;
+          min-width: 0 !important;
+        }
+      }
+    `;
+    (document.head || document.documentElement).appendChild(styleMobile);
+  }
+
 })();

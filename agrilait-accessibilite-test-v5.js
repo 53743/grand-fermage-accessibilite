@@ -177,4 +177,31 @@
   } else {
     initialiser();
   }
+
+  // Supprimer la bordure du bloc informatif Agrilait
+  function supprimerBordureInformation() {
+    document.querySelectorAll(
+      '#form [data-role="control"]'
+    ).forEach(function (bloc) {
+      const texte = bloc.textContent || "";
+
+      if (
+        texte.includes("Nous ne distribuons pas de gadgets") &&
+        texte.includes("boutique en ligne")
+      ) {
+        bloc.style.setProperty(
+          "border", "none", "important"
+        );
+        bloc.style.setProperty(
+          "outline", "none", "important"
+        );
+        bloc.style.setProperty(
+          "box-shadow", "none", "important"
+        );
+      }
+    });
+  }
+
+  supprimerBordureInformation();
+  setTimeout(supprimerBordureInformation, 1500);
 })();
